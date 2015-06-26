@@ -12,6 +12,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "hashicorp/precise64"
 
+  config.vm.provision "shell", inline: <<-EOF
+    sudo apt-get -y update
+    sudo apt-get install -y build-essential gfortran libccfits0 libcfitsio3 libwcs4 libx11-dev
+    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/xspec-modelsonly.tar.gz
+    tar xf xspec-modelsonly.tar.gz
+    cd xspec-modelsonly/BUILD_DIR
+    ./configure && make && make install
+
+    EOF
+
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   # config.vm.box_url = "http://domain.com/path/to/above.box"
