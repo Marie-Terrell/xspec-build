@@ -13,12 +13,35 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
 
   config.vm.provision "shell", inline: <<-EOF
+    XSPEC_PATCH=120802q
+    XSPEC_PATCH_INSTALLER=4.6
+
     sudo apt-get -y update
-    sudo apt-get install -y build-essential gfortran libccfits0 libcfitsio3 libwcs4 libx11-dev
+    sudo apt-get install -y build-essential gfortran libccfits0 libcfitsio3 libwcs4 libccfits-dev wcslib-dev libx11-dev tcl
     wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/xspec-modelsonly.tar.gz
+    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/Xspatch_${XSPEC_PATCH}.tar.gz
+    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/patch_install_${XSPEC_PATCH_INSTALLER}.tcl
+    
     tar xf xspec-modelsonly.tar.gz
-    cd xspec-modelsonly/BUILD_DIR
+
+    mv Xspatch* xspec-modelsonly/Xspec/src
+    mv patch_install_* xspec-modelsonly/Xspec/src
+    cd xspec-modelsonly/Xspec/src
+    tclsh patch_install_${XSPEC_PATCH_INSTALLER}.tcl -m -n
+
+    rm -rf XSFits
+
+    cd ../../BUILD_DIR
     ./configure && make && make install
+
+    cd ../
+    mv x86_64* install
+    export HEADAS=`pwd`/spectral
+    export XSPEC_LIBS=`pwd`/install/lib
+
+    cd
+    g++ -o xspec_test /vagrant/xspec_test.cc -Wall -L$XSPEC_LIBS -lXSFunctions -lXSUtil -lXSModel -lXS -lwcs -lCCfits -lcfitsio -lgfortran
+    ./xspec_test
 
     EOF
 
