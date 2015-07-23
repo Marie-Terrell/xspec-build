@@ -2,10 +2,6 @@ package:
   name: xspec-modelsonly
   version: 12.8.2q
 
-requirements:
-  run:
-    - xspec-deps
-
 about:
   home: https://heasarc.gsfc.nasa.gov/xanadu/xspec/
 
