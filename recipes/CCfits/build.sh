@@ -5,7 +5,7 @@ tar xf CCfits-${CCFITS_VER}.tar.gz;
 
 cd CCfits
 
-./configure --prefix=$PREFIX
+./configure --prefix=$PREFIX --with-cfitsio=$PREFIX
 make
 make install
 

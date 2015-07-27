@@ -1,6 +1,13 @@
 package:
-  name: CCFITS
+  name: ccfits
   version: 2.4
+
+requirements:
+  build:
+    - cfitsio
+
+  run:
+    - cfitsio
 
 about:
   home: http://heasarc.gsfc.nasa.gov/docs/software/fitsio/ccfits/
