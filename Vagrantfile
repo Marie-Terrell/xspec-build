@@ -17,31 +17,50 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     XSPEC_PATCH_INSTALLER=4.6
 
     sudo apt-get -y update
-    sudo apt-get install -y build-essential gfortran libccfits0 libcfitsio3 libwcs4 libccfits-dev wcslib-dev libx11-dev tcl
-    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/xspec-modelsonly.tar.gz
-    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/Xspatch_${XSPEC_PATCH}.tar.gz
-    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/patch_install_${XSPEC_PATCH_INSTALLER}.tcl
-    
-    tar xf xspec-modelsonly.tar.gz
+    sudo apt-get install -y build-essential gfortran libwcs4 wcslib-dev libx11-dev tcl libsm-dev libxrender-dev
+    wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+    sudo -u vagrant bash Miniconda-latest-Linux-x86_64.sh -b
 
-    mv Xspatch* xspec-modelsonly/Xspec/src
-    mv patch_install_* xspec-modelsonly/Xspec/src
-    cd xspec-modelsonly/Xspec/src
-    tclsh patch_install_${XSPEC_PATCH_INSTALLER}.tcl -m -n
+    sudo -u vagrant export PATH=/home/vagrant/miniconda/bin:$PATH
 
-    rm -rf XSFits
+    sudo -u vagrant conda install -y conda-build binstar
 
-    cd ../../BUILD_DIR
-    ./configure && make && make install
+    sudo -u conda config --add channels https://binstar.org/cxc/channel/dev
 
-    cd ../
-    mv x86_64* install
-    export HEADAS=`pwd`/spectral
-    export XSPEC_LIBS=`pwd`/install/lib
+    ## TO BE RUN INTERACTIVELY
+    ##
+    ## binstar login
+    ## conda build /vagrant/recipes/cfitsio
+    ## binstar upload ...
+    ## conda build /vagrant/recipes/CCfits
+    ## binstar upload ...
+    ## conda 
 
-    cd
-    g++ -o xspec_test /vagrant/xspec_test.cc -Wall -L$XSPEC_LIBS -lXSFunctions -lXSUtil -lXSModel -lXS -lwcs -lCCfits -lcfitsio -lgfortran
-    ./xspec_test
+#    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/xspec-modelsonly.tar.gz
+#    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/Xspatch_${XSPEC_PATCH}.tar.gz
+#    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/patch_install_${XSPEC_PATCH_INSTALLER}.tcl
+#    
+#    tar xf xspec-modelsonly.tar.gz
+#
+#    mv Xspatch* xspec-modelsonly/Xspec/src
+#    mv patch_install_* xspec-modelsonly/Xspec/src
+#    cd xspec-modelsonly/Xspec/src
+#    tclsh patch_install_${XSPEC_PATCH_INSTALLER}.tcl -m -n
+#
+#    rm -rf XSFits
+#
+#    cd ../../BUILD_DIR
+#    ./configure && make && make install
+#
+#    cd ../
+#    mv x86_64* install
+#    export HEADAS=`pwd`/spectral
+#    export XSPEC_LIBS=`pwd`/install/lib
+#    export LD_LIBRARY_PATH=$XSPEC_LIBS
+#
+#    cd
+#    g++ -o xspec_test /vagrant/xspec_test.cc -Wall -L$XSPEC_LIBS -lXSFunctions -lXSUtil -lXSModel -lXS -lwcs -lCCfits -lcfitsio -lgfortran
+#    ./xspec_test
 
     EOF
 
