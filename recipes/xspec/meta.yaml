@@ -2,6 +2,15 @@ package:
   name: xspec-modelsonly
   version: 12.8.2q
 
+dependencies:
+  build:
+    - ccfits
+    - cfitsio
+
+  run:
+    - ccfits
+    - cfitsio
+
 about:
   home: https://heasarc.gsfc.nasa.gov/xanadu/xspec/
 
