@@ -1,0 +1,7 @@
+package:
+  name: CCFITS
+  version: 2.4
+
+about:
+  home: http://heasarc.gsfc.nasa.gov/docs/software/fitsio/ccfits/
+
