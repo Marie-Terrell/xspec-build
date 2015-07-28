@@ -23,41 +23,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     export PATH=/home/vagrant/miniconda/bin:$PATH
 
-    sudo -u vagrant conda install -y conda-build binstar
+    sudo -u vagrant conda install -y conda-build conda-server
 
     sudo -u conda config --add channels https://binstar.org/cxc/channel/dev
 
     ## TO BE RUN INTERACTIVELY
     ##
-    ## binstar login
+    ## conda-server login
     ## conda build /vagrant/recipes/cfitsio
-    ## binstar upload ...
+    ## conda-server upload /home/vagrant/miniconda/conda-bld/linux-64/cfitsio-3.37-0.tar.bz2 -u cxc --channel dev
     ## conda build /vagrant/recipes/CCfits
-    ## binstar upload ...
-    ## conda 
+    ## conda-server upload /home/vagrant/miniconda/conda-bld/linux-64/ccfits-2.4-0.tar.bz2 -u cxc --channel dev 
+    ## conda build /vagrant/recipes/xspec
+    ## conda-server upload /home/vagrant/miniconda/conda-bld/linux-64/xspec-modelsonly-12.8.2q-0.tar.bz2 -u cxc --channel dev 
 
-#    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/release/xspec-modelsonly.tar.gz
-#    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/Xspatch_${XSPEC_PATCH}.tar.gz
-#    wget -nc --progress=dot http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/patch_install_${XSPEC_PATCH_INSTALLER}.tcl
-#    
-#    tar xf xspec-modelsonly.tar.gz
-#
-#    mv Xspatch* xspec-modelsonly/Xspec/src
-#    mv patch_install_* xspec-modelsonly/Xspec/src
-#    cd xspec-modelsonly/Xspec/src
-#    tclsh patch_install_${XSPEC_PATCH_INSTALLER}.tcl -m -n
-#
-#    rm -rf XSFits
-#
-#    cd ../../BUILD_DIR
-#    ./configure && make && make install
-#
-#    cd ../
-#    mv x86_64* install
-#    export HEADAS=`pwd`/spectral
-#    export XSPEC_LIBS=`pwd`/install/lib
-#    export LD_LIBRARY_PATH=$XSPEC_LIBS
-#
 #    cd
 #    g++ -o xspec_test /vagrant/xspec_test.cc -Wall -L$XSPEC_LIBS -lXSFunctions -lXSUtil -lXSModel -lXS -lwcs -lCCfits -lcfitsio -lgfortran
 #    ./xspec_test
