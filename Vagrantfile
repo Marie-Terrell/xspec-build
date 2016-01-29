@@ -21,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     export PATH=/home/vagrant/miniconda/bin:$PATH
 
-    conda install -y conda-build conda-server
+    conda install -y conda-build anaconda-client 
 
     conda config --add channels https://binstar.org/cxc/channel/dev
 
