@@ -12,20 +12,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "hashicorp/precise64"
 
-  config.vm.provision "shell", inline: <<-EOF
-    XSPEC_PATCH=120802q
-    XSPEC_PATCH_INSTALLER=4.6
+  config.vm.provision "shell", privileged: false, inline: <<-EOF
 
     sudo apt-get -y update
     sudo apt-get install -y build-essential gfortran libwcs4 wcslib-dev libx11-dev tcl libsm-dev libxrender-dev
     wget -N http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
-    sudo -u vagrant bash Miniconda-latest-Linux-x86_64.sh -b -p /home/vagrant/miniconda
+    bash Miniconda-latest-Linux-x86_64.sh -b -p /home/vagrant/miniconda
 
     export PATH=/home/vagrant/miniconda/bin:$PATH
 
-    sudo -u vagrant conda install -y conda-build conda-server
+    conda install -y conda-build conda-server
 
-    sudo -u conda config --add channels https://binstar.org/cxc/channel/dev
+    conda config --add channels https://binstar.org/cxc/channel/dev
 
     ## TO BE RUN INTERACTIVELY
     ##
