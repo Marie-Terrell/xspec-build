@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     conda install -y conda-build anaconda-client 
 
-    conda config --add channels https://binstar.org/cxc/channel/dev
+    conda config --add channels https://conda.anaconda.org/cxc/channel/dev
 
     ## TO BE RUN INTERACTIVELY
     ##
