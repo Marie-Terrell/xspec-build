@@ -4,20 +4,26 @@ XSPEC_DIR=$RECIPE_DIR/../../
 
 cd $XSPEC_DIR 
 
-XSPEC_HEASOFT_VERSION="6.17";
-XSPEC_PATCH="Xspatch_120900i.tar.gz";
-XSPEC_PATCH_INSTALLER="patch_install_4.7.tcl";
+XSPEC_HEASOFT_VERSION="6.20";
+#XSPEC_PATCH="Xspatch_120900i.tar.gz";
+#XSPEC_PATCH_INSTALLER="patch_install_4.7.tcl";
 XSPEC_MODELS_ONLY=xspec-modelsonly-v${XSPEC_HEASOFT_VERSION}
 
 wget -N http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}.tar.gz;
 tar xf ${XSPEC_MODELS_ONLY}.tar.gz;
 
-wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
-wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
-cd ${XSPEC_MODELS_ONLY}/Xspec/src;
-tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
-rm -rf XSFits;
-cd ../../BUILD_DIR;
+if [ -z "$XSPEC_PATCH" ]
+then
+    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
+    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
+    cd ${XSPEC_MODELS_ONLY}/Xspec/src;
+    tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
+    rm -rf XSFits;
+    cd ../../;
+fi
+
+cd BUILD_DIR
+
 ./configure --prefix=$XSPEC_DIST
 
 sed -i.orig "s|XSLM_USER_FLAGS=\"\"|XSLM_USER_FLAGS=\"-I$PREFIX/include\"|g" ../Xspec/BUILD_DIR/hmakerc
