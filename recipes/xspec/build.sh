@@ -12,17 +12,17 @@ XSPEC_MODELS_ONLY=xspec-modelsonly-v${XSPEC_HEASOFT_VERSION}
 wget -N http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}.tar.gz;
 tar xf ${XSPEC_MODELS_ONLY}.tar.gz;
 
-if [ -z "$XSPEC_PATCH" ]
+if [ -n "$XSPEC_PATCH" ]
 then
     wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
     wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;
-    cd ../../;
+    cd ${XSPEC_DIR};
 fi
 
-cd BUILD_DIR
+cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 
 ./configure --prefix=$XSPEC_DIST
 
