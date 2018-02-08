@@ -12,6 +12,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "hashicorp/precise64"
 
+  config.vm.provider "virtualbox" do |vb|
+     # Use VBoxManage to customize the VM. For example to change memory:
+     vb.customize ["modifyvm", :id, "--memory", "4096"]
+  end
+
   config.vm.provision "shell", privileged: false, inline: <<-EOF
 
     sudo apt-get -y update

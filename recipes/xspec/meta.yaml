@@ -1,9 +1,10 @@
 package:
   name: xspec-modelsonly
-  version: 12.9.1
+  version: 12.9.1u
 
 requirements:
   build:
+    - libgfortran-ng
     - ccfits
     - cfitsio
 

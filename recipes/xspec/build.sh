@@ -4,9 +4,11 @@ XSPEC_DIR=$RECIPE_DIR/../../
 
 cd $XSPEC_DIR 
 
-XSPEC_HEASOFT_VERSION="6.20";
-#XSPEC_PATCH="Xspatch_120900i.tar.gz";
-#XSPEC_PATCH_INSTALLER="patch_install_4.7.tcl";
+XSPEC_HEASOFT_VERSION="6.21";
+
+# Note, a patch file contains all the patches up to the one in the version string
+XSPEC_PATCH="Xspatch_120901u.tar.gz";
+XSPEC_PATCH_INSTALLER="patch_install_4.8.tcl";
 XSPEC_MODELS_ONLY=xspec-modelsonly-v${XSPEC_HEASOFT_VERSION}
 
 wget -N http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}.tar.gz;
