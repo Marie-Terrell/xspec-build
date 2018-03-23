@@ -4,11 +4,13 @@ package:
 
 requirements:
   build:
+    - libgcc-ng
     - libgfortran-ng
     - ccfits
     - cfitsio
 
   run:
+    - libgcc-ng
     - libgfortran-ng
     - ccfits
     - cfitsio
