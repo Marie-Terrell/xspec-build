@@ -16,8 +16,8 @@ tar xf ${XSPEC_MODELS_ONLY}.tar.gz;
 
 if [ -n "$XSPEC_PATCH" ]
 then
-    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
-    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
+    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
+    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;

@@ -9,6 +9,7 @@ requirements:
     - cfitsio
 
   run:
+    - libgfortran-ng
     - ccfits
     - cfitsio
 
