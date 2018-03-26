@@ -1,9 +1,17 @@
 package:
   name: ccfits
-  version: 2.4
+  version: 2.5
+
+build:
+  number: 1
 
 requirements:
   build:
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+
+  host:
     - cfitsio
 
   run:

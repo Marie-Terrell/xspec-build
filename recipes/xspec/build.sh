@@ -26,6 +26,9 @@ fi
 
 cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 
+CFLAGS="-I$PREFIX/include -L$PREFIX/lib"
+CXXFLAGS="-std=c++11"
+
 ./configure --prefix=$XSPEC_DIST
 
 sed -i.orig "s|XSLM_USER_FLAGS=\"\"|XSLM_USER_FLAGS=\"-I$PREFIX/include\"|g" ../Xspec/BUILD_DIR/hmakerc

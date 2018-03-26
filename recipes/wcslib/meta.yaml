@@ -1,0 +1,16 @@
+package:
+  name: wcslib
+  version: 5.18
+
+build:
+  number: 0
+
+requirements:
+  build:
+   - {{ compiler('c') }}
+   - {{ compiler('fortran') }}
+   - {{ compiler('cxx') }}
+
+about:
+  home: http://www.atnf.csiro.au/people/Mark.Calabretta/WCS/
+

@@ -6,6 +6,6 @@ tar xf cfitsio${CFITSIO_VER}.tar.gz;
 cd cfitsio
 
 ./configure --prefix=$PREFIX
-make
+make shared
 make install
 
