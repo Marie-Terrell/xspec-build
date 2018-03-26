@@ -5,6 +5,8 @@ tar xf CCfits-${CCFITS_VER}.tar.gz;
 
 cd CCfits
 
+CXXFLAGS="-I$PREFIX/include -L$PREFIX/lib"
+
 ./configure --prefix=$PREFIX
 make
 make install

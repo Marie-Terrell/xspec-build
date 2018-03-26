@@ -3,13 +3,14 @@ package:
   version: 2.5
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}
+    - cfitsio
 
   host:
     - cfitsio
