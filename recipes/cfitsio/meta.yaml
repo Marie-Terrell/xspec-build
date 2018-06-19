@@ -2,6 +2,9 @@ package:
   name: cfitsio
   version: 3.370
 
+source:
+  url: ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio3370.tar.gz 
+
 build:
   number: 1
 

@@ -1,11 +1,9 @@
-CCFITS_VER=2.5
 
-wget -N http://heasarc.gsfc.nasa.gov/fitsio/ccfits/CCfits-${CCFITS_VER}.tar.gz 
-tar xf CCfits-${CCFITS_VER}.tar.gz;
+CXXFLAGS="-I$PREFIX/include -I$(pwd)/cookbook_hack"
+LDFLAGS="-L$PREFIX/lib"
 
-cd CCfits
-
-CXXFLAGS="-I$PREFIX/include -L$PREFIX/lib"
+mkdir -p cookbook_hack/CCfits
+cp *.h cookbook_hack/CCfits
 
 ./configure --prefix=$PREFIX
 make

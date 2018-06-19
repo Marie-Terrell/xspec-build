@@ -11,14 +11,14 @@ XSPEC_PATCH="Xspatch_120901u.tar.gz";
 XSPEC_PATCH_INSTALLER="patch_install_4.8.tcl";
 XSPEC_MODELS_ONLY=xspec-modelsonly-v${XSPEC_HEASOFT_VERSION}
 
-wget -N http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}.tar.gz;
+curl -LO -z ${XSPEC_MODELS_ONLY}.tar.gz http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}.tar.gz;
 tar xf ${XSPEC_MODELS_ONLY}.tar.gz;
 
 if [ -n "$XSPEC_PATCH" ]
 then
-    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
-    wget -N http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER} -P ${XSPEC_MODELS_ONLY}/Xspec/src;
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
+    curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH};
+    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER};
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;
     cd ${XSPEC_DIR};
@@ -26,15 +26,17 @@ fi
 
 cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 
-CFLAGS="-I$PREFIX/include -L$PREFIX/lib"
-CXXFLAGS="-std=c++11"
+#export CFLAGS='-I${PREFIX}/include -O2 -Wall --pedantic -Wno-comment -Wno-long-long -g  -ffloat-store -fPIC'
+#export CXXFLAGS='-I${PREFIX}/include -O2 -Wall --pedantic -Wno-comment -Wno-long-long -g  -ffloat-store -fPIC'
+#export CPPFLAGS="-I${PREFIX}/include"
+#export LDFLAGS="-L${PREFIX}/lib" 
+
+export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing"
 
 ./configure --prefix=$XSPEC_DIST
 
-sed -i.orig "s|XSLM_USER_FLAGS=\"\"|XSLM_USER_FLAGS=\"-I$PREFIX/include\"|g" ../Xspec/BUILD_DIR/hmakerc
-sed -i.orig "s|XSLM_USER_LIBS=\"\"|XSLM_USER_LIBS=\"-L$PREFIX/lib\"|g" ../Xspec/BUILD_DIR/hmakerc
-
-make
+#./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'XSLM_USER_LIBS="-L${PREFIX}/lib -lCCfits -lcfitsio -lwcs"'
+./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'LDFLAGS_CXX=-headerpad_max_install_names -L$PREFIX/lib -lcfitsio -lCCfits -lccfits -lwcs' 'CXXFLAGS=-I$PREFIX/include -std=c++11 -Wno-c++11-narrowing'
 
 make install;
 

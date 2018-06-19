@@ -2,6 +2,9 @@ package:
   name: ccfits
   version: 2.5
 
+source:
+  url: http://heasarc.gsfc.nasa.gov/fitsio/ccfits/CCfits-2.5.tar.gz 
+
 build:
   number: 0
 
