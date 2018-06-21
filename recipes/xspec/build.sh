@@ -33,7 +33,7 @@ cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 
 export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing"
 
-./configure --prefix=$XSPEC_DIST
+./configure --prefix=$XSPEC_DIST --x-libraries=$PREFIX/lib --x-includes=$PREFIX/include
 
 #./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'XSLM_USER_LIBS="-L${PREFIX}/lib -lCCfits -lcfitsio -lwcs"'
 ./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'LDFLAGS_CXX=-headerpad_max_install_names -L$PREFIX/lib -lcfitsio -lCCfits -lccfits -lwcs' 'CXXFLAGS=-I$PREFIX/include -std=c++11 -Wno-c++11-narrowing'

@@ -7,13 +7,14 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
-  
+
   host:
     - ccfits
     - cfitsio
     - wcslib
     - ncurses
     - readline
+    - xorg-libx11
 
   run:
     - ccfits
@@ -21,6 +22,7 @@ requirements:
     - wcslib
     - ncurses
     - readline
+    - xorg-libx11
 
 about:
   home: https://heasarc.gsfc.nasa.gov/xanadu/xspec/
