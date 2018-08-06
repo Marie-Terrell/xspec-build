@@ -4,16 +4,23 @@ package:
 
 requirements:
   build:
-    - libgcc-ng
-    - libgfortran-ng
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
+  
+  host:
     - ccfits
     - cfitsio
+    - wcslib
+    - ncurses
+    - readline
 
   run:
-    - libgcc-ng
-    - libgfortran-ng
     - ccfits
     - cfitsio
+    - wcslib
+    - ncurses
+    - readline
 
 about:
   home: https://heasarc.gsfc.nasa.gov/xanadu/xspec/

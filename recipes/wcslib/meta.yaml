@@ -1,0 +1,22 @@
+package:
+  name: wcslib
+  version: 5.18
+
+build:
+  number: 0
+
+source:
+  url: ftp://ftp.atnf.csiro.au/pub/software/wcslib/wcslib-5.18.tar.bz2
+
+requirements:
+  build:
+   - {{ compiler('c') }}
+   - {{ compiler('fortran') }}
+   - {{ compiler('cxx') }}
+
+  host:
+   - cfitsio
+
+about:
+  home: http://www.atnf.csiro.au/people/Mark.Calabretta/WCS/
+

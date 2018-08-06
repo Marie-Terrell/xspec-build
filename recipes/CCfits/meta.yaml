@@ -1,9 +1,21 @@
 package:
   name: ccfits
-  version: 2.4
+  version: 2.5
+
+source:
+  url: http://heasarc.gsfc.nasa.gov/fitsio/ccfits/CCfits-2.5.tar.gz 
+
+build:
+  number: 0
 
 requirements:
   build:
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+    - cfitsio
+
+  host:
     - cfitsio
 
   run:

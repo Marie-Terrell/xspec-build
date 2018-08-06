@@ -1,5 +1,5 @@
 
 ./configure --prefix=$PREFIX
-make shared
+make
 make install
 
