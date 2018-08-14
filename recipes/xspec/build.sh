@@ -4,21 +4,21 @@ XSPEC_DIR=$RECIPE_DIR/../../
 
 cd $XSPEC_DIR 
 
-XSPEC_HEASOFT_VERSION="6.21";
+XSPEC_HEASOFT_VERSION="6.24";
 
 # Note, a patch file contains all the patches up to the one in the version string
-XSPEC_PATCH="Xspatch_120901u.tar.gz";
-XSPEC_PATCH_INSTALLER="patch_install_4.8.tcl";
-XSPEC_MODELS_ONLY=xspec-modelsonly-v${XSPEC_HEASOFT_VERSION}
+XSPEC_PATCH="Xspatch_121000e.tar.gz";
+XSPEC_PATCH_INSTALLER="patch_install_4.9.tcl";
+XSPEC_MODELS_ONLY=heasoft-${XSPEC_HEASOFT_VERSION}
 
-curl -LO -z ${XSPEC_MODELS_ONLY}.tar.gz http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}.tar.gz;
-tar xf ${XSPEC_MODELS_ONLY}.tar.gz;
+curl -LO -z ${XSPEC_MODELS_ONLY}src.tar.gz http://heasarc.gsfc.nasa.gov/FTP/software/lheasoft/lheasoft${XSPEC_HEASOFT_VERSION}/${XSPEC_MODELS_ONLY}src.tar.gz;
+tar xf ${XSPEC_MODELS_ONLY}src.tar.gz;
 
 if [ -n "$XSPEC_PATCH" ]
 then
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
-    curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH};
-    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER};
+    curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH};
+    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER};
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;
     cd ${XSPEC_DIR};
@@ -33,12 +33,12 @@ cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 
 export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing"
 
-./configure --prefix=$XSPEC_DIST
+./configure --prefix=$XSPEC_DIST --enable-xs-models-only
 
 #./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'XSLM_USER_LIBS="-L${PREFIX}/lib -lCCfits -lcfitsio -lwcs"'
-./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'LDFLAGS_CXX=-headerpad_max_install_names -L$PREFIX/lib -lcfitsio -lCCfits -lccfits -lwcs' 'CXXFLAGS=-I$PREFIX/include -std=c++11 -Wno-c++11-narrowing'
-
-make install;
+#./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'LDFLAGS_CXX=-headerpad_max_install_names -L$PREFIX/lib -lcfitsio -lCCfits -lccfits -lwcs' 'CXXFLAGS=-I$PREFIX/include -std=c++11 -Wno-c++11-narrowing'
+make
+make install
 
 #cd ../;
 #

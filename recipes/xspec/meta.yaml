@@ -1,6 +1,6 @@
 package:
   name: xspec-modelsonly
-  version: 12.9.1u
+  version: 12.10.0e
 
 requirements:
   build:
@@ -9,18 +9,10 @@ requirements:
     - {{ compiler('fortran') }}
   
   host:
-    - ccfits
-    - cfitsio
-    - wcslib
     - ncurses
-    - readline
 
   run:
-    - ccfits
-    - cfitsio
-    - wcslib
     - ncurses
-    - readline
 
 about:
   home: https://heasarc.gsfc.nasa.gov/xanadu/xspec/
