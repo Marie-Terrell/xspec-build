@@ -31,9 +31,11 @@ cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 #export CPPFLAGS="-I${PREFIX}/include"
 #export LDFLAGS="-L${PREFIX}/lib" 
 
-export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing"
+export CFLAGS="-I$CONDA_PREFIX/include"
+export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing -I$CONDA_PREFIX/include"
+export LDFLAGS="$LDFLAGS -L$CONDA_PREFIX/lib -Wl,--no-as-needed"
 
-./configure --prefix=$XSPEC_DIST --enable-xs-models-only
+./configure --prefix=$XSPEC_DIST --enable-xs-models-only --disable-x --disable-ldopt
 
 #./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'XSLM_USER_LIBS="-L${PREFIX}/lib -lCCfits -lcfitsio -lwcs"'
 #./hmake 'XSLM_USER_FLAGS="-I${PREFIX}/include"' 'LDFLAGS_CXX=-headerpad_max_install_names -L$PREFIX/lib -lcfitsio -lCCfits -lccfits -lwcs' 'CXXFLAGS=-I$PREFIX/include -std=c++11 -Wno-c++11-narrowing'

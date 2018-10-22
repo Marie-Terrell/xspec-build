@@ -7,12 +7,16 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
+    - ncurses 5.*
+    - readline
   
   host:
-    - ncurses
+    - ncurses 5.*
+    - readline
 
   run:
-    - ncurses
+    - ncurses 5.*
+    - readline
 
 about:
   home: https://heasarc.gsfc.nasa.gov/xanadu/xspec/
