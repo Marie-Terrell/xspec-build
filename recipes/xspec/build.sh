@@ -38,7 +38,7 @@ export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing -I$CONDA_PREFIX/include"
 export LDFLAGS="$LDFLAGS -L$CONDA_PREFIX/lib -Wl,--no-as-needed"
 
 # Patch the configure script so XSModel is built
-sed -i orig "|src/XSFunctions|src/XSFunctions src/XSModel|g"
+sed -i.orig "s|src/XSFunctions|src/XSFunctions src/XSModel|g" configure
 
 # Do it.
 ./configure --prefix=$XSPEC_DIST --enable-xs-models-only --disable-x
