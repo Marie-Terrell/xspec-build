@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", privileged: false, inline: <<-EOF
 
     sudo apt-get -y update
-    sudo apt-get install -y build-essential gfortran libwcs4 wcslib-dev libx11-dev tcl libsm-dev libxrender-dev
+    sudo apt-get install -y libx11-dev tcl libsm-dev libxrender-dev
     wget -N http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
     bash Miniconda-latest-Linux-x86_64.sh -b -p /home/vagrant/miniconda
 
