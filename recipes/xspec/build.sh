@@ -9,7 +9,7 @@ XSPEC_MODELS_ONLY=heasoft-${XSPEC_HEASOFT_VERSION}
 
 # Ok, start building XSPEC
 
-XSPEC_DIST=$PREFIX/Xspec
+XSPEC_DIST=/tmp/Xspec
 XSPEC_DIR=$RECIPE_DIR/../../
 
 cd $XSPEC_DIR 
@@ -22,8 +22,8 @@ tar xf ${XSPEC_MODELS_ONLY}src.tar.gz;
 if [ -n "$XSPEC_PATCH" ]
 then
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
-    curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH};
-    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER};
+    curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH};
+    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER};
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;
     cd ${XSPEC_DIR};
@@ -44,4 +44,19 @@ sed -i.orig "s|src/XSFunctions|src/XSFunctions src/XSModel|g" configure
 ./configure --prefix=$XSPEC_DIST --enable-xs-models-only --disable-x
 make HD_ADD_SHLIB_LIBS=yes
 make install
+
+# We install in a temporary location, then we have to pick what we need for the package
+# I.E. the libraries and the data files.
+mkdir -p $PREFIX/lib
+cp -L $XSPEC_DIST/x86*/lib/*.so* $PREFIX/lib/
+cp -L $XSPEC_DIST/x86*/lib/*.a $PREFIX/lib/
+
+mkdir -p $PREFIX/include
+cp -L $XSPEC_DIST/x86*/include/xsFortran.h $PREFIX/include
+cp -L $XSPEC_DIST/x86*/include/xsTypes.h $PREFIX/include
+cp -L $XSPEC_DIST/x86*/include/funcWrappers.h $PREFIX/include
+
+
+mkdir $PREFIX/Xspec
+cp -R $XSPEC_DIST/spectral $PREFIX/Xspec/
 

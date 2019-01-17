@@ -14,8 +14,14 @@ requirements:
     - ncurses 5.*
     - readline
 
+# Note that ncurses is only needed to build but I am not
+# sure it's needed at all at run-time. To keep things
+# safe and simple I am keeping it, but removing the version
+# number since it was only there to make `configure` happy
+# and there is no evidence ncurses is required in the
+# first place.
   run:
-    - ncurses 5.*
+    - ncurses
     - readline
 
 about:
