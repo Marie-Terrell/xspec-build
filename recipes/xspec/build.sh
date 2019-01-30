@@ -29,6 +29,9 @@ then
     cd ${XSPEC_DIR};
 fi
 
+#Copy in the OGIPTable fix
+cp OGIPTable.cxx ${XSPEC_MODELS_ONLY}/Xspec/src/XSModel/Model/Component/OGIPTable
+
 # Now for the actual build
 cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 
