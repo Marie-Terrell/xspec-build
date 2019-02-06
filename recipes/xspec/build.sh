@@ -38,7 +38,7 @@ cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 # Set some compiler flags
 export CFLAGS="-I$CONDA_PREFIX/include"
 export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing -I$CONDA_PREFIX/include"
-export LDFLAGS="$LDFLAGS -L$CONDA_PREFIX/lib -Wl,--no-as-needed"
+export LDFLAGS="$LDFLAGS -L$CONDA_PREFIX/lib"
 
 # Patch the configure script so XSModel is built
 sed -i.orig "s|src/XSFunctions|src/XSFunctions src/XSModel|g" configure
@@ -51,7 +51,11 @@ make install
 # We install in a temporary location, then we have to pick what we need for the package
 # I.E. the libraries and the data files.
 mkdir -p $PREFIX/lib
-cp -L $XSPEC_DIST/x86*/lib/*.so* $PREFIX/lib/
+if [ "`uname -s`" = "Linux" ] ; then
+  cp -L $XSPEC_DIST/x86*/lib/*.so* $PREFIX/lib/
+else
+  cp -L $XSPEC_DIST/x86*/lib/*.dylib* $PREFIX/lib/
+fi
 cp -L $XSPEC_DIST/x86*/lib/*.a $PREFIX/lib/
 
 mkdir -p $PREFIX/include
