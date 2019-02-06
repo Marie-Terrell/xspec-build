@@ -1,10 +1,10 @@
 # These are the values to change
 # Note, a patch file contains all the patches up to the one in the version string
 # Comment out XSPEC_PATCH if you don't want any patches.
-XSPEC_HEASOFT_VERSION="6.24";
+XSPEC_HEASOFT_VERSION="6.25";
 
-XSPEC_PATCH="Xspatch_121000e.tar.gz";
-XSPEC_PATCH_INSTALLER="patch_install_4.9.tcl";
+XSPEC_PATCH="Xspatch_121001b.tar.gz";
+XSPEC_PATCH_INSTALLER="patch_install_4.10.tcl";
 XSPEC_MODELS_ONLY=heasoft-${XSPEC_HEASOFT_VERSION}
 
 # Ok, start building XSPEC
@@ -23,7 +23,7 @@ if [ -n "$XSPEC_PATCH" ]
 then
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
     curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH};
-    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER};
+    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER};
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;
     cd ${XSPEC_DIR};
