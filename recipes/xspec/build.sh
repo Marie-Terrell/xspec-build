@@ -1,10 +1,10 @@
 # These are the values to change
 # Note, a patch file contains all the patches up to the one in the version string
 # Comment out XSPEC_PATCH if you don't want any patches.
-XSPEC_HEASOFT_VERSION="6.24";
+XSPEC_HEASOFT_VERSION="6.25";
 
-XSPEC_PATCH="Xspatch_121000e.tar.gz";
-XSPEC_PATCH_INSTALLER="patch_install_4.9.tcl";
+XSPEC_PATCH="Xspatch_121001b.tar.gz";
+XSPEC_PATCH_INSTALLER="patch_install_4.10.tcl";
 XSPEC_MODELS_ONLY=heasoft-${XSPEC_HEASOFT_VERSION}
 
 # Ok, start building XSPEC
@@ -23,11 +23,14 @@ if [ -n "$XSPEC_PATCH" ]
 then
     cd ${XSPEC_MODELS_ONLY}/Xspec/src;
     curl -LO -z ${XSPEC_PATCH} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH};
-    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/archive/${XSPEC_PATCH_INSTALLER};
+    curl -LO -z ${XSPEC_PATCH_INSTALLER} http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/issues/${XSPEC_PATCH_INSTALLER};
     tclsh ${XSPEC_PATCH_INSTALLER} -m -n;
     rm -rf XSFits;
     cd ${XSPEC_DIR};
 fi
+
+#Copy in the OGIPTable fix
+cp OGIPTable.cxx ${XSPEC_MODELS_ONLY}/Xspec/src/XSModel/Model/Component/OGIPTable
 
 # Now for the actual build
 cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
@@ -35,7 +38,7 @@ cd ${XSPEC_DIR}/${XSPEC_MODELS_ONLY}/BUILD_DIR
 # Set some compiler flags
 export CFLAGS="-I$CONDA_PREFIX/include"
 export CXXFLAGS="-std=c++11 -Wno-c++11-narrowing -I$CONDA_PREFIX/include"
-export LDFLAGS="$LDFLAGS -L$CONDA_PREFIX/lib -Wl,--no-as-needed"
+export LDFLAGS="$LDFLAGS -L$CONDA_PREFIX/lib"
 
 # Patch the configure script so XSModel is built
 sed -i.orig "s|src/XSFunctions|src/XSFunctions src/XSModel|g" configure
@@ -48,7 +51,11 @@ make install
 # We install in a temporary location, then we have to pick what we need for the package
 # I.E. the libraries and the data files.
 mkdir -p $PREFIX/lib
-cp -L $XSPEC_DIST/x86*/lib/*.so* $PREFIX/lib/
+if [ "`uname -s`" = "Linux" ] ; then
+  cp -L $XSPEC_DIST/x86*/lib/*.so* $PREFIX/lib/
+else
+  cp -L $XSPEC_DIST/x86*/lib/*.dylib* $PREFIX/lib/
+fi
 cp -L $XSPEC_DIST/x86*/lib/*.a $PREFIX/lib/
 
 mkdir -p $PREFIX/include

@@ -1,6 +1,6 @@
 package:
   name: xspec-modelsonly
-  version: 12.10.0e
+  version: 12.10.1b
 
 requirements:
   build:
